@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Guess The Price!</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+</head>
+<body>
+  <h1>Guess the Price! - Whole Numbers Only</h1>
+  <img id="productImage">
+  <form id="guessForm">
+    Input Guess: $ <input type="number" min="0" step="1" id="guessValue"/>
+    <input type="submit" value="Submit" id="submitGuessBtn"/>
+  </form>
+  <div id="feedback"></div>
+  <a id="buyProductBtn" style="display: none;">Buy Me!</a>
+</body>
+<script src="./index.js"></script>
+</html>
