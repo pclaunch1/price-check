@@ -1,12 +1,6 @@
 version: 0.2
 
 phases:
-  install:
-    commands:
-      - go get -u github.com/golang/lint/golint
-  pre_build:
-    commands:
-      - golint -set_exit_status
   build:
     commands:
       - GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o build/bootstrap cmd/main.go
