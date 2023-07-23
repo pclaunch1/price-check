@@ -1,6 +1,15 @@
 version: 0.2
 
+env:
+  variables:
+    GO_VERSION: 1.20.6
+
 phases:
+  install:
+    commands:
+      - wget https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz
+      - tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
+      - export PATH="/usr/local/go/bin:$PATH" && export GOPATH="$HOME/go" && export PATH="$GOPATH/bin:$PATH"
   build:
     commands:
       - GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o build/bootstrap cmd/main.go
