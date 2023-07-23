@@ -14,7 +14,7 @@ phases:
     commands:
       - echo $PWD
       - ls -lah
-      - GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o build/bootstrap cmd/main.go
+      - GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o build/bootstrap api/cmd/main.go
 artifacts:
   files:
     - api/build/*
