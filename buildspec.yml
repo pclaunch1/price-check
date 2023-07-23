@@ -14,13 +14,11 @@ phases:
       - go get -v -u ./...
   build:
     commands:
-      - echo $PWD
-      - ls -lah
-      - GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o build/bootstrap cmd/main.go
-      - zip -jrm build/bootstrap.zip build/bootstrap
+      - GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o build/getChallenge/bootstrap cmd/getChallenge/main.go
+      - zip -jrm build/getChallenge/bootstrap.zip build/getChallenge/bootstrap
 artifacts:
   files:
-    - api/build/*
+    - api/build/*/*.zip
     - index.html
     - index.js
     - conf.js
