@@ -12,12 +12,11 @@ phases:
       - export PATH="/usr/local/go/bin:$PATH" && export GOPATH="$HOME/go" && export PATH="$GOPATH/bin:$PATH"
       - cd api/
       - go get -v -u ./...
-      - cd ..
   build:
     commands:
       - echo $PWD
       - ls -lah
-      - GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o build/bootstrap api/cmd/main.go
+      - GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o build/bootstrap cmd/main.go
 artifacts:
   files:
     - api/build/*
