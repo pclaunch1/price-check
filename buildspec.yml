@@ -14,8 +14,8 @@ phases:
       - go get -v -u ./...
   build:
     commands:
-      - GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o build/getChallenge/bootstrap cmd/getChallenge/main.go
-      - zip -jrm build/getChallenge/bootstrap.zip build/getChallenge/bootstrap
+      - GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o build/getChallenge/bootstrap cmd/main.go
+      - zip -jrm build/getChallenge/bootstrap.zip build/bootstrap
 artifacts:
   files:
     - api/build/*/*.zip
