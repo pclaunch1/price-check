@@ -19,7 +19,7 @@ import (
 )
 
 type CurrentChallenge struct {
-    ItemId string `json:"itemID"`
+    Id string `json:"id"`
     ImageUrls []string `json:"imageUrls"`
 }
 

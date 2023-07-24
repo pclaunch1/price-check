@@ -6,6 +6,7 @@ require (
 	github.com/aws/aws-lambda-go v1.41.0
 	github.com/aws/aws-sdk-go-v2 v1.19.0
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression v1.4.58
+	github.com/gin-gonic/gin v1.9.1
 )
 
 require (
@@ -24,7 +25,6 @@ require (
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
-	github.com/gin-gonic/gin v1.9.1 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.14.0 // indirect
@@ -54,6 +54,5 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/dynamodbstreams v1.14.15 // indirect
 	github.com/aws/smithy-go v1.13.5 // indirect
 	github.com/awslabs/aws-lambda-go-api-proxy v0.14.0
-	github.com/go-chi/chi/v5 v5.0.10
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 )
