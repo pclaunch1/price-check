@@ -59,7 +59,7 @@ func init() {
 	// r.Put("/challenge/{id}", HandlePutItem)
 	r.Get("/challenge/{id}", HandleGetItem)
     r.Post("/challenge/{id}/guess", HandleChallengeGuess)
-	r.Get("challenge/today/", HandleCurrentChallenges)
+	r.Get("/challenge/today", HandleCurrentChallenges)
 
     adapter = chiproxy.New(r)
 }
