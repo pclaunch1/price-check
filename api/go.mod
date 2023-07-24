@@ -56,5 +56,6 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/dynamodbstreams v1.14.15 // indirect
 	github.com/aws/smithy-go v1.13.5 // indirect
 	github.com/awslabs/aws-lambda-go-api-proxy v0.14.0
+	github.com/gin-contrib/cors v1.4.0
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 )
