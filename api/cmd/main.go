@@ -15,6 +15,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -48,6 +49,18 @@ func init() {
 	svc = dynamodb.NewFromConfig(cfg)
 	
     r := gin.Default()
+
+	r.Use(cors.New(cors.Config{
+	 AllowOrigins:     []string{"http://price-check-prod.s3-website-us-east-1.amazonaws.com"},
+	 AllowMethods:     []string{"PUT", "PATCH"},
+	 AllowHeaders:     []string{"Origin"},
+	 ExposeHeaders:    []string{"Content-Length"},
+	 AllowCredentials: true,
+	 AllowOriginFunc: func(origin string) bool {
+	  return origin == "http://price-check-prod.s3-website-us-east-1.amazonaws.com"
+	 },
+	 MaxAge: 12 * time.Hour,
+	}))
 
 	// r.POST("/challenge", HandlePostItem)
 	// r.Get("/challenge", HandleListItems)
