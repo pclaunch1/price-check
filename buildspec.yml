@@ -22,3 +22,4 @@ artifacts:
     - index.html
     - index.js
     - conf.js
+    - init.js
