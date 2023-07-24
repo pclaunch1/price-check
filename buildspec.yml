@@ -19,7 +19,4 @@ phases:
 artifacts:
   files:
     - api/build/*.zip
-    - index.html
-    - index.js
-    - conf.js
-    - init.js
+    - frontend/*
