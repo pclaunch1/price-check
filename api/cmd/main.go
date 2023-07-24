@@ -98,7 +98,7 @@ func HandleCurrentChallenges(c *gin.Context) {
     }
 
 	type Response struct {
-		ItemId string `json:"itemID"`
+		Id string `json:"id"`
 		ImageUrls []string `json:"imageUrls"`
 	}
     
