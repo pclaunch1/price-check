@@ -68,7 +68,7 @@ func init() {
 	// r.POST("/challenge", HandlePostItem)
 	// r.Get("/challenge", HandleListItems)
 	// r.Put("/challenge/{id}", HandlePutItem)
-	// r.GET("/challenge/{id}", HandleGetItem)
+	r.GET("/challenge/:id", HandleGetItem)
     r.POST("/challenge/:id/guess", HandleChallengeGuess)
 	r.GET("/challenge/today", HandleCurrentChallenges)
 	
@@ -156,12 +156,12 @@ func HandleChallengeGuess(c *gin.Context) {
     })
     if err != nil {
         log.Fatalf("Got error calling GetItem: %s", err)
-        c.JSON(http.StatusOK, err)
+        c.JSON(http.StatusInternalServerError, err)
     }
 
     if challenge.Item == nil{
         log.Fatalf("Could not find challenge for today")
-        c.JSON(http.StatusOK, err)
+        c.JSON(http.StatusNotFound, err)
     }
     
     var item *models.Item
@@ -169,7 +169,7 @@ func HandleChallengeGuess(c *gin.Context) {
     err = attributevalue.UnmarshalMap(challenge.Item, &item)
     if err != nil {
         log.Fatalf(fmt.Sprintf("Failed to unmarshal Record, %v", err))
-        c.JSON(http.StatusOK, err)
+        c.JSON(http.StatusInternalServerError, err)
     }
 
     var result *Result
@@ -227,28 +227,28 @@ func HandleChallengeGuess(c *gin.Context) {
 // 	utils.RespondWithJSON(w, 200, result)
 // }
 
-// func HandleGetItem(c *gin.Context) {
-//     tableName := "challenges"
-// 	id := chi.URLParam(r, "id")
+func HandleGetItem(c *gin.Context) {
+    tableName := "challenges"
+	id := c.Param("id")
     
-//     var challenge *models.Item
+    var challenge *models.Item
     
-//     res, err := svc.GetItem(r.Context(), &dynamodb.GetItemInput{
-//         TableName: aws.String(tableName),
-// 		Key: map[string]types.AttributeValue{
-// 			"id": &types.AttributeValueMemberS{Value: id},
-// 		},
-//     })
-//     if err != nil {
-//         log.Fatalf("Got error calling GetItem: %s", err)
-//         http.Error(w, http.StatusText(500), 500)
-//     }
+    res, err := svc.GetItem(c, &dynamodb.GetItemInput{
+        TableName: aws.String(tableName),
+		Key: map[string]types.AttributeValue{
+			"id": &types.AttributeValueMemberS{Value: id},
+		},
+    })
+    if err != nil {
+        log.Fatalf("Got error calling GetItem: %s", err)
+        c.JSON(http.StatusInternalServerError, err)
+    }
     
-//     err = attributevalue.UnmarshalMap(res.Item, &challenge)
-//     if err != nil {
-//         log.Fatalf(fmt.Sprintf("Failed to unmarshal Record, %v", err))
-//         http.Error(w, http.StatusText(500), 500)
-//     }
+    err = attributevalue.UnmarshalMap(res.Item, &challenge)
+    if err != nil {
+        log.Fatalf(fmt.Sprintf("Failed to unmarshal Record, %v", err))
+        c.JSON(http.StatusInternalServerError, err)
+    }
 
-// 	utils.RespondWithJSON(w, 200, challenge)
-// }
+	c.JSON(http.StatusOK, challenge)
+}
