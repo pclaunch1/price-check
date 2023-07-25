@@ -69,7 +69,7 @@ func init() {
 	// r.Get("/challenge", HandleListItems)
 	// r.Put("/challenge/{id}", HandlePutItem)
 	// r.GET("/challenge/{id}", HandleGetItem)
-    r.POST("/challenge/{id}/guess", HandleChallengeGuess)
+    r.POST("/challenge/:id/guess", HandleChallengeGuess)
 	r.GET("/challenge/today", HandleCurrentChallenges)
 
     ginLambda = ginadapter.New(r)
