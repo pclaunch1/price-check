@@ -71,6 +71,10 @@ func init() {
 	// r.GET("/challenge/{id}", HandleGetItem)
     r.POST("/challenge/:id/guess", HandleChallengeGuess)
 	r.GET("/challenge/today", HandleCurrentChallenges)
+	
+	r.NoRoute(func(c *gin.Context) {
+		c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
+	})
 
     ginLambda = ginadapter.New(r)
 }
