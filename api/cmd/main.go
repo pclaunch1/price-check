@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
+	"price-check-api/models"
 	"time"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -14,6 +16,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -52,7 +55,7 @@ func init() {
 
 	r.Use(cors.New(cors.Config{
 	 AllowOrigins:     []string{"http://price-check-prod.s3-website-us-east-1.amazonaws.com"},
-	 AllowMethods:     []string{"PUT", "PATCH"},
+	 AllowMethods:     []string{"GET", "POST", "PUT"},
 	 AllowHeaders:     []string{"Origin"},
 	 ExposeHeaders:    []string{"Content-Length"},
 	 AllowCredentials: true,
@@ -66,7 +69,7 @@ func init() {
 	// r.Get("/challenge", HandleListItems)
 	// r.Put("/challenge/{id}", HandlePutItem)
 	// r.GET("/challenge/{id}", HandleGetItem)
-    // r.POST("/challenge/{id}/guess", HandleChallengeGuess)
+    r.POST("/challenge/{id}/guess", HandleChallengeGuess)
 	r.GET("/challenge/today", HandleCurrentChallenges)
 
     ginLambda = ginadapter.New(r)
@@ -126,64 +129,68 @@ func HandleCurrentChallenges(c *gin.Context) {
 	c.JSON(http.StatusOK, items)
 }
 
-// func HandleChallengeGuess(c *gin.Context) {
-//     tableName := "challenges"
-// 	id := chi.URLParam(r, "id")
+func HandleChallengeGuess(c *gin.Context) {
+	println("In Request Handling")
+    tableName := "challenges"
+	id := c.Param("id")
 
-//     var reqBody *Submission
-//     err := json.NewDecoder(r.Body).Decode(&reqBody)
-//     if err != nil {
-//         log.Fatalf("Unmarshalling error: %s", err)
-//         http.Error(w, http.StatusText(500), 500)
-//     }
+    var reqBody *Submission
+    err := json.NewDecoder(c.Request.Body).Decode(&reqBody)
+    if err != nil {
+        log.Fatalf("Unmarshalling error: %s", err)
+        c.JSON(http.StatusInternalServerError, err)
+    }
+	println("Parsed Request Body")
+	println(c.Request.Body)
+	println(reqBody.PriceGuess)
     
-//     challenge, err := svc.GetItem(r.Context(), &dynamodb.GetItemInput{
-//         TableName: aws.String(tableName),
-// 		Key: map[string]types.AttributeValue{
-// 			"id": &types.AttributeValueMemberS{Value: id},
-// 		},
-//     })
-//     if err != nil {
-//         log.Fatalf("Got error calling GetItem: %s", err)
-//         http.Error(w, http.StatusText(500), 500)
-//     }
+    challenge, err := svc.GetItem(c, &dynamodb.GetItemInput{
+        TableName: aws.String(tableName),
+		Key: map[string]types.AttributeValue{
+			"id": &types.AttributeValueMemberS{Value: id},
+		},
+    })
+    if err != nil {
+        log.Fatalf("Got error calling GetItem: %s", err)
+        c.JSON(http.StatusInternalServerError, err)
+    }
 
-//     if challenge.Item == nil{
-//         log.Fatalf("Could not find challenge for today")
-//         http.Error(w, http.StatusText(400), 400)
-//     }
+    if challenge.Item == nil{
+        log.Fatalf("Could not find challenge for today")
+        c.JSON(http.StatusNotFound, err)
+    }
     
-//     var item *models.Item
+    var item *models.Item
     
-//     err = attributevalue.UnmarshalMap(challenge.Item, &item)
-//     if err != nil {
-//         log.Fatalf(fmt.Sprintf("Failed to unmarshal Record, %v", err))
-//         http.Error(w, http.StatusText(500), 500)
-//     }
+    err = attributevalue.UnmarshalMap(challenge.Item, &item)
+    if err != nil {
+        log.Fatalf(fmt.Sprintf("Failed to unmarshal Record, %v", err))
+        c.JSON(http.StatusInternalServerError, err)
+    }
 
-//     result := Result {
-//         Result: "Incorrect",
-//         Suggestion: "Go Lower",
-//     }
+    result := Result {
+        Result: "Incorrect",
+        Suggestion: "Go Lower",
+    }
 
-//     if reqBody.PriceGuess == item.Price {
-//         result = Result{
-//             Result: "Correct",
-//             Suggestion: "Nice Job!",
-//         }
-// 		utils.RespondWithJSON(w, 200, result)
-//     }
+    if reqBody.PriceGuess == item.Price {
+        result = Result{
+            Result: "Correct",
+            Suggestion: "Nice Job!",
+        }
+        c.JSON(http.StatusOK, result)
+    }
 
-//     if reqBody.PriceGuess < item.Price {
-//         result = Result{
-//             Result: "Incorrect",
-//             Suggestion: "Go Higher",
-//         }
-// 		utils.RespondWithJSON(w, 200, result)
-//     }
+    if reqBody.PriceGuess < item.Price {
+        result = Result{
+            Result: "Incorrect",
+            Suggestion: "Go Higher",
+        }
+        c.JSON(http.StatusOK, result)
+    }
 
-// 	utils.RespondWithJSON(w, 200, result)
-// }
+	c.JSON(http.StatusOK, result)
+}
 
 // func HandlePostItem(c *gin.Context) {
 //     tableName := "challenges"

@@ -1,4 +1,17 @@
-document.getElementById("productImage").src = config.PRODUCT_IMAGE;
+let productId;
+
+fetch("https://jvhttn9e7f.execute-api.us-east-1.amazonaws.com/test/challenge/today")
+.then((response) => {
+    if (response.ok) {
+        return response.json();
+    } else {
+        throw new Error("API CALL FAIL");
+    }
+})
+.then(data => {
+    productId = data[0]["id"];
+    displayChallenge(data[0]);
+});
 
 var form = document.getElementById("guessForm")
 
@@ -24,3 +37,11 @@ function submitGuess(e) {
 
     document.getElementById("feedback").innerText = result
 };
+
+function displayChallenge(data) {
+    console.log(data);
+    const challengeImage = data["imageUrls"][0];
+    const imageDiv = document.getElementById("productImage");
+
+    imageDiv.src = challengeImage;
+}
