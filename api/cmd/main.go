@@ -138,7 +138,7 @@ func HandleChallengeGuess(c *gin.Context) {
     err := json.NewDecoder(c.Request.Body).Decode(&reqBody)
     if err != nil {
         log.Fatalf("Unmarshalling error: %s", err)
-        c.JSON(http.StatusInternalServerError, err)
+        c.JSON(http.StatusOK, err)
     }
 	println("Parsed Request Body")
 	println(c.Request.Body)
@@ -152,12 +152,12 @@ func HandleChallengeGuess(c *gin.Context) {
     })
     if err != nil {
         log.Fatalf("Got error calling GetItem: %s", err)
-        c.JSON(http.StatusInternalServerError, err)
+        c.JSON(http.StatusOK, err)
     }
 
     if challenge.Item == nil{
         log.Fatalf("Could not find challenge for today")
-        c.JSON(http.StatusNotFound, err)
+        c.JSON(http.StatusOK, err)
     }
     
     var item *models.Item
@@ -165,7 +165,7 @@ func HandleChallengeGuess(c *gin.Context) {
     err = attributevalue.UnmarshalMap(challenge.Item, &item)
     if err != nil {
         log.Fatalf(fmt.Sprintf("Failed to unmarshal Record, %v", err))
-        c.JSON(http.StatusInternalServerError, err)
+        c.JSON(http.StatusOK, err)
     }
 
     var result *Result
