@@ -168,28 +168,31 @@ func HandleChallengeGuess(c *gin.Context) {
         c.JSON(http.StatusInternalServerError, err)
     }
 
-    result := Result {
-        Result: "Incorrect",
-        Suggestion: "Go Lower",
-    }
+    var result *Result
 
     if reqBody.PriceGuess == item.Price {
-        result = Result{
+        result = &Result{
             Result: "Correct",
             Suggestion: "Nice Job!",
         }
-        c.JSON(http.StatusOK, result)
+        c.JSON(http.StatusOK, &result)
     }
 
     if reqBody.PriceGuess < item.Price {
-        result = Result{
+        result = &Result{
             Result: "Incorrect",
             Suggestion: "Go Higher",
         }
-        c.JSON(http.StatusOK, result)
+        c.JSON(http.StatusOK, &result)
     }
 
-	c.JSON(http.StatusOK, result)
+    if reqBody.PriceGuess > item.Price {
+        result = &Result {
+			Result: "Incorrect",
+			Suggestion: "Go Lower",
+		}
+        c.JSON(http.StatusOK, &result)
+    }
 }
 
 // func HandlePostItem(c *gin.Context) {
