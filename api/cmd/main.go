@@ -33,8 +33,8 @@ type Submission struct {
 }
 
 type Result struct {
-    Result string `json:"itemID"`
-    Suggestion string `json:"imageUrls"`
+    Result string `json:"result"`
+    Suggestion string `json:"suggestion"`
 }
 
 var ginLambda *ginadapter.GinLambda
