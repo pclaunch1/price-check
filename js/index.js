@@ -1,5 +1,7 @@
 let productId;
 
+let slideIndex = 1;
+
 fetch("https://jvhttn9e7f.execute-api.us-east-1.amazonaws.com/test/challenge/today")
 .then((response) => {
     if (response.ok) {
@@ -11,6 +13,7 @@ fetch("https://jvhttn9e7f.execute-api.us-east-1.amazonaws.com/test/challenge/tod
 .then(data => {
     productId = data[0]["id"];
     displayChallenge(data[0]);
+    showSlides(slideIndex);
 });
 
 var form = document.getElementById("guessForm")
@@ -79,9 +82,6 @@ async function postData(url = "", data = {}) {
     });
     return response.json(); // parses JSON response into native JavaScript objects
   }
-
-let slideIndex = 1;
-showSlides(slideIndex);
 
 // Next/previous controls
 function plusSlides(n) {
