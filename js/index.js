@@ -45,7 +45,7 @@ function submitGuess(e) {
 function displayChallenge(data) {
     console.log(data);
 
-    data.imageUrls.forEach((element) => {
+    data.imageUrls.forEach((element, index) => {
       let imageParentDiv = document.createElement("div");
       imageParentDiv.setAttribute("class", "mySlides fade");
 
@@ -56,6 +56,12 @@ function displayChallenge(data) {
       imageParentDiv.appendChild(imageDiv);
 
       document.getElementById("carousel").appendChild(imageParentDiv);
+
+      let dotSpan = document.createElement("span");
+      dotSpan.setAttribute("class", "dot");
+      dotSpan.setAttribute("onclick", currentSlide(index));
+
+      document.getElementById("carouselDots").appendChild(dotSpan);
     });
 }
 
