@@ -20,4 +20,5 @@ artifacts:
   files:
     - api/build/*.zip
     - js/*
+    - css/*
     - index.html

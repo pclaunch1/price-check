@@ -58,7 +58,7 @@ function displayChallenge(data) {
 
       imageParentDiv.appendChild(imageDiv);
 
-      document.getElementById("carousel").appendChild(imageParentDiv);
+      document.getElementById("carousel1").appendChild(imageParentDiv);
 
       let dotSpan = document.createElement("span");
       dotSpan.setAttribute("class", "dot");
