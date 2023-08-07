@@ -44,10 +44,19 @@ function submitGuess(e) {
 
 function displayChallenge(data) {
     console.log(data);
-    const challengeImage = data["imageUrls"][0];
-    const imageDiv = document.getElementById("productImage");
 
-    imageDiv.src = challengeImage;
+    data.imageUrls.forEach((element) => {
+      let imageParentDiv = document.createElement("div");
+      imageParentDiv.setAttribute("class", "mySlides fade");
+
+      let imageDiv = document.createElement("img");
+      imageDiv.setAttribute("src", element);
+      imageDiv.setAttribute("style", "width:100%");
+
+      imageParentDiv.appendChild(imageDiv);
+
+      document.getElementById("carousel").appendChild(imageParentDiv);
+    });
 }
 
 async function postData(url = "", data = {}) {
@@ -64,3 +73,32 @@ async function postData(url = "", data = {}) {
     });
     return response.json(); // parses JSON response into native JavaScript objects
   }
+
+let slideIndex = 1;
+showSlides(slideIndex);
+
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+}
