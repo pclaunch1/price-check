@@ -25,7 +25,6 @@ function submitGuess(e) {
     const priceGuess = document.getElementById("guessValue").value
     
     postData("https://jvhttn9e7f.execute-api.us-east-1.amazonaws.com/test/challenge/"+ productId + "/guess", { priceGuess: parseInt(priceGuess), attemptCount: 1 }).then((data) => {
-        console.log(data); // JSON data parsed by `data.json()` call
         document.getElementById("feedback").innerText = data.result + " -- " + data.suggestion
         if(data.result === "Correct"){
           fetch("https://jvhttn9e7f.execute-api.us-east-1.amazonaws.com/test/challenge/" + productId)
@@ -46,8 +45,6 @@ function submitGuess(e) {
 };
 
 function displayChallenge(data) {
-    console.log(data);
-
     data.imageUrls.forEach((element, index) => {
       let imageParentDiv = document.createElement("div");
       imageParentDiv.setAttribute("class", "mySlides fade");
@@ -58,11 +55,13 @@ function displayChallenge(data) {
 
       imageParentDiv.appendChild(imageDiv);
 
-      document.getElementById("carousel1").appendChild(imageParentDiv);
+      const navBtn = document.getElementById("prevBtn");
+
+      document.getElementById("carousel1").insertBefore(imageParentDiv, navBtn);
 
       let dotSpan = document.createElement("span");
       dotSpan.setAttribute("class", "dot");
-      dotSpan.setAttribute("onclick", currentSlide(index));
+      dotSpan.setAttribute("onclick", "currentSlide(index+1);");
 
       document.getElementById("carouselDots").appendChild(dotSpan);
     });
