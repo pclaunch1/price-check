@@ -25,7 +25,23 @@ function submitGuess(e) {
     const priceGuess = document.getElementById("guessValue").value
     
     postData("https://jvhttn9e7f.execute-api.us-east-1.amazonaws.com/test/challenge/"+ productId + "/guess", { priceGuess: parseInt(priceGuess), attemptCount: 1 }).then((data) => {
-        document.getElementById("feedback").innerText = data.result + " -- " + data.suggestion
+        // document.getElementById("feedback").innerText = data.result + " -- " + data.suggestion
+        let guessList = document.getElementById("guessList")
+        let guessDiv = document.createElement("div")
+        let suggestionDiv = document.createElement("span")
+        if(data.suggestion === "Go Higher"){
+          suggestionDiv.setAttribute("class", "fa fa-chevron-up")
+        }
+        else if(data.suggestion === "Go Lower"){
+          suggestionDiv.setAttribute("class", "fa fa-chevron-down")
+        }
+        else{
+          suggestionDiv.setAttribute("class", "fa fa-check")
+        }
+        guessDiv.innerText = priceGuess
+
+        guessList.appendChild(guessDiv)
+        guessList.appendChild(suggestionDiv)
         if(data.result === "Correct"){
           fetch("https://jvhttn9e7f.execute-api.us-east-1.amazonaws.com/test/challenge/" + productId)
           .then((response) => {

@@ -6,8 +6,12 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="" />
   <link rel="stylesheet" href="css/index.css" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+  <span class="fa fa-chevron-up"></span>
+  <span class="fa fa-chevron-down"></span>
+  <span class="fa fa-check"></span>
   <h1>Guess the Price! - Whole Numbers Only</h1>
   <!-- Slideshow container -->
   <div class="slideshow-container" id="carousel1">
@@ -19,14 +23,14 @@
   <br>
 
   <!-- The dots/circles -->
-  <div style="text-align:center" id="carouselDots">
-  </div>
+  <div style="text-align:center" id="carouselDots"></div>
   <form id="guessForm">
     Input Guess: $ <input type="number" min="0" step="1" id="guessValue"/>
     <input type="submit" value="Submit" id="submitGuessBtn"/>
   </form>
   <div id="feedback"></div>
-  <a id="buyProductBtn" style="display: none;" target="_blank">Buy Me!</a>
+  <div id="guessList"></div>
+  <a id="buyProductBtn" style="display: none;" target="_blank" rel="noreferrer noopener">Buy Me!</a>
 </body>
 <script src="./js/index.js"></script>
 </html>
