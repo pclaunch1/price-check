@@ -191,11 +191,6 @@ if (input_val.indexOf(".") >= 0) {
   // remove all non-digits
   input_val = formatNumber(input_val);
   input_val = "$" + input_val;
-  
-  // final formatting
-  if (blur === "blur") {
-    input_val += ".00";
-  }
 }
 
 // send updated string to input
