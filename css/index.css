@@ -1,5 +1,13 @@
 * {box-sizing:border-box}
 
+@font-face{
+  font-family:'digital-clock-font';
+  src: url('../assets/digital-7.regular.ttf');
+ }
+
+#guessValue {
+  font-family: 'digital-clock-font';
+}
 label {
   display: block;
   font-size: 24px;
