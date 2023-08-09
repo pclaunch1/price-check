@@ -38,14 +38,14 @@ function submitGuess(e) {
     const reqBody = { priceGuess: parseInt(priceGuess), attemptCount: 1 };
 
     postData(apiHost + "/challenge/"+ productId + "/guess", reqBody).then((data) => {
-      appendGuess(data=data);
+      appendGuess(data=data, guess=priceGuess);
       if(data.result === "Correct"){
         displayBuyLink();
       }
       });
 };
 
-function appendGuess(data = {}){
+function appendGuess(data = {}, guess=""){
   let guessList = document.getElementById("guessList");
   let guessDiv = document.createElement("div");
   let suggestionDiv = document.createElement("span");
@@ -59,7 +59,7 @@ function appendGuess(data = {}){
   else{
     suggestionDiv.setAttribute("class", "fa fa-check");
   }
-  guessDiv.innerText = priceGuess;
+  guessDiv.innerText = guess;
 
   guessList.appendChild(guessDiv);
   guessList.appendChild(suggestionDiv);
