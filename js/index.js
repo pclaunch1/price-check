@@ -34,7 +34,7 @@ function getTodayChallenge(){
 
 function submitGuess(e) {
     e.preventDefault();
-    const priceGuess = document.getElementById("guessValue").value;
+    const priceGuess = document.getElementById("guessValue").value.replace('$', '');
     const reqBody = { priceGuess: parseInt(priceGuess), attemptCount: 1 };
 
     postData(apiHost + "/challenge/"+ productId + "/guess", reqBody).then((data) => {
