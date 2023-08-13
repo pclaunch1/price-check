@@ -5,7 +5,7 @@
   src: url('../assets/digital-7.regular.ttf');
  }
 
-#moneyText {
+.moneyText {
   font-family: 'digital-clock-font';
 }
 
