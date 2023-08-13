@@ -34,8 +34,8 @@ function getTodayChallenge(){
 
 function submitGuess(e) {
     e.preventDefault();
-    const priceGuess = document.getElementById("guessValue").value.replace('$', '');
-    const reqBody = { priceGuess: parseInt(priceGuess), attemptCount: 1 };
+    const priceGuess = document.getElementById("guessValue").value;
+    const reqBody = { priceGuess: parseInt(priceGuess.replace('$', '')), attemptCount: 1 };
 
     postData(apiHost + "/challenge/"+ productId + "/guess", reqBody).then((data) => {
       appendGuess(data=data, guess=priceGuess);
@@ -47,6 +47,7 @@ function submitGuess(e) {
 
 function appendGuess(data = {}, guess=""){
   let guessList = document.getElementById("guessList");
+  let parentDiv = document.createElement("div");
   let guessDiv = document.createElement("div");
   let suggestionDiv = document.createElement("span");
 
@@ -62,8 +63,10 @@ function appendGuess(data = {}, guess=""){
   guessDiv.innerText = guess;
   guessDiv.setAttribute("class", "moneyText")
 
-  guessList.appendChild(guessDiv);
-  guessList.appendChild(suggestionDiv);
+  parentDiv.appendChild(guessDiv);
+  parentDiv.appendChild(suggestionDiv);
+
+  guessList.appendChild(parentDiv);
 }
 
 function displayBuyLink(){
