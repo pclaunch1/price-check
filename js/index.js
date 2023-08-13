@@ -60,6 +60,7 @@ function appendGuess(data = {}, guess=""){
     suggestionDiv.setAttribute("class", "fa fa-check");
   }
   guessDiv.innerText = guess;
+  guessDiv.setAttribute("class", "moneyText")
 
   guessList.appendChild(guessDiv);
   guessList.appendChild(suggestionDiv);
